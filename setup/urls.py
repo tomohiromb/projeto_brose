@@ -18,10 +18,10 @@ from django.contrib import admin
 from django.urls import path
 
 from . import index
-
+from webapp.views import login_view
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', index.index),
-    path('login', index.login)
+    path('login/', login_view, name='login')
 ]

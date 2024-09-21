@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link 
+    rel="stylesheet"
+    href="style.css"
+    >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login - Brose</title>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo Brose -->
+        <img src="brose_icon.png" alt="Brose" width="160"><br>
+        
+
+        <h2>Login</h2>
+
+        <form action="/login" method="POST">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+
+            <button type="submit"><strong>Acessar</strong></button>
+        </form>
+    </div>
+</body>
+</html>
