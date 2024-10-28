@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funcionários</title>
+    <!-- o css está com o ID para realizar a alteração de Tema -->
+    <link id="css" rel="stylesheet" href="{% static 'funcionarios/style.css' %}">
+    <script src="{% static 'funcionarios/script.js' %}"></script>
+</head>
+
+<body>
+    <button id="popup">pesquisar</button>
+
+    <div>
+    <div class="top-bar">
+        <div class="logo">
+            <img src="{% static 'funcionarios/brose_icon.png' %}" alt="Logo">
+        </div>
+        <div class="user-info">
+            <span class="user-name">Nome do Usuário</span>
+            <div class="logout">
+                <img src="{% static 'funcionarios/logout.png' %}" alt="Logout"> 
+            </div>
+        </div>
+    </div>
+
+    <div class="left-bar">
+    <aside class="barra-lateral">
+        <ul>
+            <li><a href="/pagina_inicial/"><img src="{% static 'funcionarios/assets/logo_casa_branca.png' %}",></a></li>
+            <li><a href="#"><img src="{% static 'funcionarios/assets/icone_silhueta.png' %}"></a></li>
+            <li><a href="/cursos/"><img src="{% static 'funcionarios/assets/icone_curso_livro.png' %}"></a></li>
+        </ul>
+    </aside>
+    <main>
+    </div>
+        
+    </main>
+        <div class="filtros-map">
+            <div class="filtros-pesquisar">
+                <div class="filtros">
+
+                    <div class="skills">
+
+                        <div class="labels">
+
+                            <label>Skills</label>
+                            <input type="text" placeholder="Digite qual skill filtrar...">
+
+                        </div>
+
+                        <div class="labels">
+
+                            <label>Planta</label>
+                            <input type="text" placeholder="Digite qual planta filtrar...">
+
+                        </div>
+
+                        <div class="labels">
+
+                            <label>Id_Funcionário</label>
+                            <input type="text" placeholder="Digite qual Funcionário filtrar...">
+
+                        </div>
+
+                        <div class="labels">
+
+                            <label>Posição</label>
+                            <input type="text" placeholder="Digite qual posição filtrar...">
+
+                        </div>
+
+                        <div class="labels">
+
+                            <label>Setor</label>
+                            <input type="text" placeholder="Digite qual setor filtrar...">
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="nome">
+
+                        <div class="labels-maiores">
+                            <label>Nome</label>
+                            <input id="Nome" type="text" placeholder="Digite qual nome filtrar...">
+                        </div>
+
+                        <div class="labels-maiores">
+
+                            <label>Descrição</label>
+                            <input id="desc" type="text" placeholder="Digite qual descrição filtrar...">
+                        
+                        </div>
+
+                        <div class="labels">
+
+                            <label>Data</label>
+                            <input id="data" type="text" placeholder="Digite a data">
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div class="botao-pesquisar">
+                    <button class="pesquisar">Pesquisar</button>
+                </div>
+            </div>
+
+            <div class="botoes-exportar">
+
+                <button class="pesquisar">Exportar</button>
+                <button class="pesquisar">Imprimir</button>
+
+            </div>
+
+        </div> 
+
+        <div class="rolagem">
+            <table class="tabela">
+
+                <thead class="decricao_tabela">
+                    <tr>
+                        <th>Planta</th>
+                        <th>Setor</th>
+                        <th>Employee</th>
+                        <th>Nome</th>
+                        <th>Posição</th>
+                        <th>Descriçao</th>
+                        <th>Ultima Atualização</th>
+                        <th>Editar</th>
+                        <th>Deletar</th>
+                    </tr>
+                </thead class="elementos_tabela">
+                <!-- Funcionário exemplo-->
+                <tbody>
+                    <tr>
+                        <td>CUR</td>
+                        <td>BR/TQ1 QUALITY & INDUSTRIALIZATION</td>
+                        <td>0771868</td>
+                        <td>Cleidson</td>
+                        <td>CUR0080</td>
+                        <td>AUXILIAR DE PRODUÇÃO</td>
+                        <td>06/10/2024</td>
+                        <td><button class="editar-botao pesquisar">Editar</button></td>
+                        <td><button class="pesquisar">Deletar</button></td>
+                    </tr>
+                    <tr>
+                        <td>CUR</td>
+                        <td>BR/TQ1 QUALITY & INDUSTRIALIZATION</td>
+                        <td>0771868</td>
+                        <td>Cleidson</td>
+                        <td>CUR0080</td>
+                        <td>AUXILIAR DE PRODUÇÃO</td>
+                        <td>06/10/2024</td>
+                        <td><button class="editar-botao pesquisar">Editar</button></td>
+                        <td><button class="pesquisar">Deletar</button></td>
+                    </tr>
+
+                    <!-- Pop-up Modal (adicione isto) -->
+                    <div id="popup" class="popup">
+                        <div class="popup-content">
+                            <span class="close">&times;</span>
+                            <form>
+                                <label for="planta">Planta</label>
+                                <input type="text" id="planta" name="planta">
+                                
+                                <label for="posicao">Posição</label>
+                                <input type="text" id="posicao" name="posicao">
+
+                                <label for="employee">Employee</label>
+                                <input type="text" id="employee" name="employee">
+
+                                <label for="nome">Nome</label>
+                                <input type="text" id="nome" name="nome">
+
+                                <label for="setor">Setor</label>
+                                <input type="text" id="setor" name="setor">
+
+                                <label for="descricao">Descrição</label>
+                                <input type="text" id="descricao" name="descricao">
+
+                                <label for="skills">Skills</label>
+                                <textarea id="skills" name="skills"></textarea>
+
+                                <div class="buttons">
+                                    <button type="button" class="exportar">Exportar</button>
+                                    <button type="button" class="imprimir">Imprimir</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </main>
+                </tbody>
+
+            </table>
+        </div>
+
+    </main>
+    </div>
+</body>

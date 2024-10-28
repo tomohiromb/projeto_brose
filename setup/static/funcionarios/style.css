@@ -1,0 +1,351 @@
+body {
+    background-color: #d3d2d2;
+    font-family: Arial;
+}
+/* Barra superior */
+.top-bar {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.logo img {
+    height: 35px;
+    width: auto;
+}
+
+.logout img {
+    height: 30px;
+    width: auto;
+    margin-right: 40px;
+}
+.logout .tooltip {
+    visibility: hidden; /* Oculta a tooltip por padrão */
+    position: absolute;
+    bottom: 100%; /* Posiciona acima do ícone */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.logout:hover .tooltip {
+    visibility: visible; /* Exibe a tooltip ao passar o mouse */
+    opacity: 1;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-name {
+    color: #ffffff;
+    font-size: small;
+    padding: 7px 15px;
+    box-shadow: inset 2px 5px 5px rgba(65, 65, 65, 0.25);
+    background: #CA0039;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+
+.left-bar {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+/* Estilo do ícone de logout */
+.logout img {
+    height: 20px; /* Ajuste proporcional do ícone de logout */
+    width: auto;
+    cursor: pointer;
+}
+
+.barra-lateral {
+    overflow-y: auto;
+    width: 40px; /* Define a largura da barra lateral */
+    background-color: #CA0039;
+    background-image: url('caminho-para-sua-imagem.png'); /* Caminho da imagem */
+    background-size: cover; /* Faz a imagem cobrir toda a barra */
+    padding: 15px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Faz com que ocupe a altura total da página */
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.barra-lateral img {
+    width: 80%;
+    max-width: 150px; /* Ajuste o tamanho máximo da imagem */
+    height: auto;
+    display: block;
+    margin: 50px auto 0; /* Espaçamento superior de 20px */
+}
+
+.barra-lateral ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.barra-lateral li {
+    margin: 10px 0;
+}
+
+.barra-lateral a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Para o main não sobrepor a barra lateral */
+main {
+    flex: 1;
+    padding: 30px;
+}
+
+.filtros-map {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.filtros-pesquisar {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin-left: 6%;
+}
+
+.filtros {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.skills, .nome {
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.labels {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.labels-maiores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+}
+
+.labels, .nome label {
+    font-weight: bold;
+    color: #CA0039;
+    margin-bottom: 7px;
+} 
+
+
+.labels input {
+    width: 100%;
+    box-shadow: 0px 5px 5px #9a9a9a;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.nome input {
+    width: 100%;
+    box-shadow: 0px 5px 5px #9a9a9a;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#data {
+    width: 50%;
+}
+
+.botao-pesquisar {
+
+    display: flex;
+    align-items: flex-end;
+
+}
+
+.pesquisar {
+    padding: 10px 30px;
+    box-shadow: inset 0px 4px 4px rgba(0.25, 0, 0, 0.25);
+    color: #fff;
+    background: #CA0039;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    
+}
+
+.pesquisar:hover {
+    background-color: rgba(0, 0, 0, 0.398)
+}
+
+.botoes-exportar {
+    display: flex;
+    align-items: end;
+    width: 20%;
+    justify-content: space-evenly;
+}
+
+.rolagem {
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 100%;
+    max-height: 700px;
+    overflow-y: auto;
+    margin-top: 50px;
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela thead {
+    background-color: #ffffff;
+    box-shadow: 2px 2px 5px;
+    color: #000000;
+    top: 0;
+    z-index: 10; 
+}
+
+.tabela thead th {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.tabela tbody tr {
+    background-color: #b5b5b58f;
+}
+
+.tabela tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+
+.tabela tbody tr:hover {
+    background-color: #8a7373;
+}
+
+.tabela tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+
+}
+
+.tabela td {
+    word-wrap: break-word;  
+    max-width: 150px;       
+}
+
+.tabela tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Estilo do Pop-up */
+.popup {
+    display: none; /* Inicialmente escondido */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.close {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px 0;
+    font-weight: bold;
+}
+
+input[type="text"], textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+textarea {
+    height: 100px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button.exportar, button.imprimir {
+    background-color: #C1002C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+button.exportar:hover, button.imprimir:hover {
+    background-color: #90001f;
+}

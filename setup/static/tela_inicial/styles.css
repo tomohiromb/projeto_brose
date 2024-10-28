@@ -1,0 +1,138 @@
+body {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    overflow: hidden; 
+
+}
+
+/* Barra superior */
+.top-bar {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.logo img {
+    height: 35px;
+    width: auto;
+}
+
+.logout img {
+    height: 30px;
+    width: auto;
+    margin-right: 40px;
+}
+.logout .tooltip {
+    visibility: hidden; /* Oculta a tooltip por padrão */
+    position: absolute;
+    bottom: 100%; /* Posiciona acima do ícone */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.logout:hover .tooltip {
+    visibility: visible; /* Exibe a tooltip ao passar o mouse */
+    opacity: 1;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+
+.user-name {
+    color: #ffffff;
+    font-size: small;
+    padding: 7px 15px;
+    box-shadow: inset 2px 5px 5px rgba(65, 65, 65, 0.25);
+    background: #CA0039;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Barra lateral */
+.left-bar {
+    width: 270px;
+}
+
+.barra-lateral {
+    overflow-y: auto;
+    width: 230px;
+    background-color: #CA0039;
+    padding: 15px;
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.3);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.barra-lateral img {
+    margin-right: 10px;
+    width: 30px;
+    height: auto;
+}
+
+.barra-lateral ul {
+    list-style-type: none;
+    background-color: #ffffff;
+    padding: 0;
+    margin-top: 20%;
+}
+
+.barra-lateral li {
+    font-size: 2.5ch;
+    background-color: #CA0039;
+    list-style-type: none;
+    margin-top: 1%;
+}
+
+.barra-lateral a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+    
+    .imagem-fundo {
+        position: relative; /* Adiciona posicionamento relativo */
+        width: 100%; /* Faz a imagem ocupar toda a largura da tela */
+        height: 40vh; /* Faz a imagem ocupar toda a altura da tela */
+    }
+    
+    .imagem-fundo img {
+        width: 87%; /* Faz a imagem ocupar toda a largura do contêiner */
+        height: auto; /* Mantém a proporção da imagem */
+        position: absolute; /* Permite posicionar a imagem de fundo */
+        top: 80%; /* Move a imagem para o centro vertical */
+        left: 57%; /* Move a imagem para o centro horizontal */
+        transform: translate(-50%, -50%); /* Centraliza a imagem */
+    }
+    

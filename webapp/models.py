@@ -2,13 +2,13 @@ from django.db import models
 
 class Login(models.Model):
     
-    # Campo para o login do usuário, com um máximo de 250 caracteres e garantindo que seja único no banco de dados
-    login = models.CharField(max_length=250, unique=True)
+    id = models.BigAutoField(primary_key=True)
     
-    # Campo para armazenar a senha do usuário, com um máximo de 30 caracteres
+    login = models.CharField(unique=True, max_length=30)
+    
     senha = models.CharField(max_length=30)
     
-     # Método para verificar se a senha fornecida é igual à senha armazenada
+    # Método para verificar se a senha fornecida é igual à senha armazenada
     def verify_password(self, tentativa_senha):
         
         # Se a senha fornecida for igual à senha do usuário no banco de dados, retorna True
@@ -20,3 +20,65 @@ class Login(models.Model):
     # Método especial que retorna uma representação em string do objeto (neste caso, o login)
     def __str__(self):
         return self.login
+    
+    class Meta:
+        managed = False
+        db_table = 'webapp_login'
+        
+
+class Cargo(models.Model):
+    
+    id = models.CharField(primary_key=True, max_length=50)
+    
+    nome_do_cargo = models.CharField(max_length=100)
+    
+    departamento = models.CharField(max_length=100)
+    
+    skills = models.TextField(max_length=500)  # This field type is a guess.
+
+    class Meta:
+        managed = False
+        db_table = 'webapp_cargos'
+
+
+class Funcionario(models.Model):
+    
+    id = models.CharField(primary_key=True, max_length=50)
+    
+    nome_do_funcionario = models.CharField(max_length=100)
+	
+    cargo_id = models.CharField(max_length=50)
+    
+    skills = models.CharField(max_length=2000)
+    
+    certificados = models.TextField(max_length=2000)
+
+    class Meta:
+        managed = False
+        db_table = 'webapp_funcionarios'
+
+class Skills(models.Model):
+    
+    id = models.CharField(primary_key=True, max_length=15)
+    
+    nome_skills = models.CharField(max_length=25)
+    
+    class Meta:
+        managed = False
+        db_table = 'webapp_skills'
+        
+class Cursos(models.Model):
+    
+    id = models.CharField(primary_key=True, max_length=15)
+    
+    funcionario_id = models.CharField(max_length=50)
+    
+    nome_skill = models.CharField(max_length=25)
+    
+    data_inicio = models.DateField()
+    
+    data_termino = models.DateField()
+    
+    class Meta:
+        managed = False
+        db_table = 'webapp_cursos'

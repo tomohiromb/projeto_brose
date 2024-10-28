@@ -16,12 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
+
 
 from . import index
-from webapp.views import login_view
+from webapp.views import login_view, lista_cargos, registrar_curso, lista_funcionarios, pagina_inicial, cursos, funcionarios
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    path('', index.index),
-    path('login/', login_view, name='login')
+    #path('', index.index),
+    path('', lambda request: redirect('login/')),
+    path('login/', login_view, name='login'),
+    path('cargos/', lista_cargos, name='cargos'),
+    path('cursos/', cursos, name='cursos'),
+    #path('funcionarios/', lista_funcionarios, name='funcionarios'),
+    path('pagina_inicial/', pagina_inicial, name='pagina_inicial'),
+    path('funcionarios/', funcionarios, name='funcionarios'),
 ]
