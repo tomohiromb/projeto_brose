@@ -2,7 +2,7 @@ document.getElementById('funcionario_id').addEventListener('blur', function() {
     const id = this.value;
 
     // Faz a requisição para a view de autocompletar
-    fetch('buscar_nome_funcionario/?id=${id}')
+    fetch(`buscar_nome_funcionario/?id=${id}`)
         .then(response => response.json())
         .then(data => {
             if (data.error) {

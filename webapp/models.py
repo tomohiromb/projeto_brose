@@ -63,7 +63,10 @@ class Skills(models.Model):
     
     id = models.CharField(primary_key=True, max_length=15)
     
-    nome_skills = models.CharField(max_length=25)
+    nome_skill = models.CharField(max_length=25)
+    
+    def __str__(self):
+        return self.nome_skill
     
     class Meta:
         managed = False

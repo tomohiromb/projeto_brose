@@ -18,17 +18,20 @@ class LoginForm(forms.Form):
 
 class FuncionarioSearchForm(forms.Form):
     
-    id_funcionario = forms.CharField(required=False, widget=forms.TextInput(attrs={ }))
+    id_funcionario = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Digite o id do funcionário para filtrar...'}))
     
-    nome = forms.CharField(required=False, label='Nome do Funcionário')
+    nome = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Digite o nome do funcionário para filtrar...'}))
     
-    skill = forms.ModelChoiceField(queryset=Skills.objects.all(), required=False, label='Skills')
+    skill = forms.ModelChoiceField(queryset=Skills.objects.all(), required=False, empty_label='Selecione uma skill para filtrar...',
+                                   widget=forms.Select(attrs={'class': 'labels'}))
     
-    setor = forms.CharField(required=False, label='Setor')
+    setor = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Digite o setor para filtrar...'}))
     
-    posicao = forms.CharField(required=False, label='Posição')
+    posicao = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Digite a posição para filtrar...'}))
     
-    descricao = forms.CharField(required=False, label='Descrição')
+    descricao = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Digite a descrição para filtrar...'}))
+    
+    ultima_verificacao = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     
 class CursosForm(forms.ModelForm):
     funcionario_id = forms.CharField(

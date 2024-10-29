@@ -233,6 +233,7 @@ main {
 .tabela {
     width: 100%;
     border-collapse: collapse;
+    margin-left: 60px;
 }
 
 .tabela thead {

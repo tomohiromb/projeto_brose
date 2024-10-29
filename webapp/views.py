@@ -47,6 +47,11 @@ def lista_funcionarios(request):
     resultados = Funcionario.objects.all()
 
     if form.is_valid():
+
+        # Filtro por ID do Funcionário
+        id_funcionario = form.cleaned_data.get('id_funcionario')
+        if id_funcionario:
+            resultados = resultados.filter(id=id_funcionario)
         
         # Filtro por nome
         nome = form.cleaned_data.get('nome')   
@@ -61,7 +66,7 @@ def lista_funcionarios(request):
         # Filtro por skill
         skill = form.cleaned_data.get('skill')
         if skill:
-            resultados = resultados.filter(skill__icontains=skill)
+            resultados = resultados.filter(skills__icontains=skill)
         
         # Filtro por posição
         posicao = form.cleaned_data.get('posicao')
@@ -76,7 +81,9 @@ def lista_funcionarios(request):
         ultima_verificacao = form.cleaned_data.get('ultima_verificacao')
         if ultima_verificacao:
             resultados = resultados.filter(ultima_verificacao__icontains=ultima_verificacao)
-            
+    
+    else:
+        print(form.errors)
     context = {
         'form': form,
         'resultados': resultados,
@@ -87,26 +94,33 @@ def lista_funcionarios(request):
 def detalhes_funcionario(request, funcionario_id):
     # Busca o funcionário pelo ID, ou retorna 404 se não encontrado
     funcionario = get_object_or_404(Funcionario, id=funcionario_id)
-    
-    # Converter a string de skills de JSON para lista de dicionários
-    try:
-        skills_list = json.loads(funcionario.skills) if funcionario.skills else []
-    except json.JSONDecodeError:
-        skills_list = []
-    
-    # Converter a string de certificados de JSON para lista de dicionários
-    try:
-        certificados_list = json.loads(funcionario.certificados) if funcionario.certificados else []
-    except json.JSONDecodeError:
-        certificados_list = []
 
-    context = {
-        'funcionario': funcionario,
-        'skills_list': skills_list,
-        'certificados_list': certificados_list,
+    # Verifique se funcionario.skills é uma string ou uma lista
+    if isinstance(funcionario.skills, str):
+        # Converter a string de skills de JSON para lista de dicionários
+        try:
+            skills_list = json.loads(funcionario.skills) if funcionario.skills else []
+        except json.JSONDecodeError:
+            skills_list = []
+    elif isinstance(funcionario.skills, list):
+        # Se já for uma lista, atribua diretamente
+        skills_list = funcionario.skills
+    else:
+        # Caso contrário, atribua uma lista vazia
+        skills_list = []
+
+    # Monta os dados para o JSON de resposta
+    dados_funcionario = {
+        'id': funcionario.id,
+        'nome': funcionario.nome_funcionario,
+        'cargo': funcionario.cargo_id,
+        'departamento': funcionario.cargo.departamento if funcionario.cargo else '',
+        'descricao': funcionario.cargo.nome_do_cargo if funcionario.cargo else '',
+        'skills': skills_list,
     }
-    
-    return render(request, 'detalhes_funcionario.html', context)
+
+    return JsonResponse(dados_funcionario)  # Retorna os dados em JSON
+
 
 def listar_cargos(request):
     # Buscar todos os cargos
