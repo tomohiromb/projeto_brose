@@ -41,6 +41,7 @@
         <div class="filtros-map">
             <div class="filtros-pesquisar">
                 <div class="filtros">
+                    <form method="get" action="{% url 'lista_funcionarios' %}">
 
                     <div class="skills">
 
@@ -48,13 +49,6 @@
 
                             <label>Skills</label>
                             <input type="text" placeholder="Digite qual skill filtrar...">
-
-                        </div>
-
-                        <div class="labels">
-
-                            <label>Planta</label>
-                            <input type="text" placeholder="Digite qual planta filtrar...">
 
                         </div>
 
@@ -126,7 +120,6 @@
 
                 <thead class="decricao_tabela">
                     <tr>
-                        <th>Planta</th>
                         <th>Setor</th>
                         <th>Employee</th>
                         <th>Nome</th>
@@ -137,38 +130,25 @@
                         <th>Deletar</th>
                     </tr>
                 </thead class="elementos_tabela">
-                <!-- Funcionário exemplo-->
                 <tbody>
+                {% for funcionario in resultados %}
                     <tr>
-                        <td>CUR</td>
-                        <td>BR/TQ1 QUALITY & INDUSTRIALIZATION</td>
-                        <td>0771868</td>
-                        <td>Cleidson</td>
-                        <td>CUR0080</td>
-                        <td>AUXILIAR DE PRODUÇÃO</td>
-                        <td>06/10/2024</td>
-                        <td><button class="editar-botao pesquisar">Editar</button></td>
-                        <td><button class="pesquisar">Deletar</button></td>
-                    </tr>
-                    <tr>
-                        <td>CUR</td>
-                        <td>BR/TQ1 QUALITY & INDUSTRIALIZATION</td>
-                        <td>0771868</td>
-                        <td>Cleidson</td>
-                        <td>CUR0080</td>
-                        <td>AUXILIAR DE PRODUÇÃO</td>
-                        <td>06/10/2024</td>
-                        <td><button class="editar-botao pesquisar">Editar</button></td>
-                        <td><button class="pesquisar">Deletar</button></td>
-                    </tr>
+                    <td>{{ funcionario.cargo.departamento }}</td>
+                    <td>{{ funcionario.id }}</td>  
+                    <td>{{ funcionario.nome_funcionario }}</td>
+                    <td>{{ funcionario.cargo.id }}</td>
+                    <td>{{ funcionario.cargo.nome_do_cargo }}</td>
+                    <td>{{ funcionario.ultima_verificacao }}</td>
 
+                    <td><button class="editar-botao pesquisar">Editar</button></td>
+                    <td><button class="pesquisar">Deletar</button></td>  
+                    </tr>
+                    {% endfor %}
                     <!-- Pop-up Modal (adicione isto) -->
                     <div id="popup" class="popup">
                         <div class="popup-content">
                             <span class="close">&times;</span>
                             <form>
-                                <label for="planta">Planta</label>
-                                <input type="text" id="planta" name="planta">
                                 
                                 <label for="posicao">Posição</label>
                                 <input type="text" id="posicao" name="posicao">
@@ -197,6 +177,7 @@
                     </div>
 
                 </main>
+                
                 </tbody>
 
             </table>

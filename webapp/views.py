@@ -42,13 +42,7 @@ def login_view(request):
     # Renderiza a página de login com o formulário (seja preenchido ou vazio)
     return render(request, 'login.html', {'form': form})
 
-
-def lista_cargos(request):
-    cargos = Cargo.objects.all()
-    return render(request, 'lista_cargos.html', {'cargos': cargos})
-
 def lista_funcionarios(request):
-    
     form = FuncionarioSearchForm(request.GET or None)
     resultados = Funcionario.objects.all()
 
@@ -57,29 +51,38 @@ def lista_funcionarios(request):
         # Filtro por nome
         nome = form.cleaned_data.get('nome')   
         if nome:
-            resultados = resultados.filter(nome__icontains=nome)
-            
-        # Filtro por cargo/posição
-        cargo = form.cleaned_data.get('cargo')
-        if cargo:
-            resultados = resultados.filter(cargo__icontains=cargo)
+            resultados = resultados.filter(nome_funcionario__icontains=nome)
 
         # Filtro por setor
         setor = form.cleaned_data.get('setor')
         if setor:
-            resultados = resultados.filter(setor__icontains=setor)
+            resultados = resultados.filter(cargo__departamento__icontains=setor)
 
         # Filtro por skill
         skill = form.cleaned_data.get('skill')
         if skill:
-            resultados = resultados.filter(funcionarioskill__skill=skill)
+            resultados = resultados.filter(skill__icontains=skill)
+        
+        # Filtro por posição
+        posicao = form.cleaned_data.get('posicao')
+        if posicao:
+            resultados = resultados.filter(cargo__id__icontains=posicao)
+
+        # Filtro por descrição
+        descricao = form.cleaned_data.get('descricao')
+        if descricao:
+            resultados = resultados.filter(cargo__nome_do_cargo__icontains=descricao)
+            
+        ultima_verificacao = form.cleaned_data.get('ultima_verificacao')
+        if ultima_verificacao:
+            resultados = resultados.filter(ultima_verificacao__icontains=ultima_verificacao)
             
     context = {
-    'form': form,
-    'resultados': resultados,
+        'form': form,
+        'resultados': resultados,
     }
     
-    return render(request, 'search_funcionarios.html', context)
+    return render(request, 'funcionarios.html', context)
 
 def detalhes_funcionario(request, funcionario_id):
     # Busca o funcionário pelo ID, ou retorna 404 se não encontrado
@@ -159,13 +162,18 @@ def autocomplete_skill(request):
         
         # Retornar as skills que combinam com o termo de pesquisa
         return JsonResponse(list(skills_list), safe=False)
- 
+
+def buscar_nome_funcionario(request):
+    funcionario_id = request.GET.get('id')
+    try:
+        funcionario = Funcionario.objects.get(id=funcionario_id)
+        return JsonResponse({'nome': funcionario.nome_funcionario})  # Supondo que o campo de nome seja 'nome'
+    except Funcionario.DoesNotExist:
+        return JsonResponse({'nome': ''})  # Retorna vazio se não encontrar
+
 #@login_required   
 def pagina_inicial(request):
     return render(request, 'inicio.html')
-
-def cursos(request):
-    return render(request, 'cursos.html')
 
 def funcionarios(request):
     return render(request, 'funcionarios.html')

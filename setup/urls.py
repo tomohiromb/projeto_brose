@@ -20,16 +20,15 @@ from django.shortcuts import redirect
 
 
 from . import index
-from webapp.views import login_view, lista_cargos, registrar_curso, lista_funcionarios, pagina_inicial, cursos, funcionarios
+from webapp.views import login_view, registrar_curso, lista_funcionarios, pagina_inicial, funcionarios, buscar_nome_funcionario
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
     #path('', index.index),
     path('', lambda request: redirect('login/')),
     path('login/', login_view, name='login'),
-    path('cargos/', lista_cargos, name='cargos'),
-    path('cursos/', cursos, name='cursos'),
-    #path('funcionarios/', lista_funcionarios, name='funcionarios'),
+    path('cursos/', registrar_curso, name='cursos'),
+    path('buscar_nome_funcionario/', buscar_nome_funcionario, name='buscar_nome_funcionario'),
     path('pagina_inicial/', pagina_inicial, name='pagina_inicial'),
-    path('funcionarios/', funcionarios, name='funcionarios'),
+    path('funcionarios/', lista_funcionarios, name='lista_funcionarios'),
 ]

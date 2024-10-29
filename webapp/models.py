@@ -45,13 +45,15 @@ class Funcionario(models.Model):
     
     id = models.CharField(primary_key=True, max_length=50)
     
-    nome_do_funcionario = models.CharField(max_length=100)
+    nome_funcionario = models.CharField(max_length=100)
 	
-    cargo_id = models.CharField(max_length=50)
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
     
     skills = models.CharField(max_length=2000)
     
     certificados = models.TextField(max_length=2000)
+    
+    ultima_verificacao = models.DateField()
 
     class Meta:
         managed = False

@@ -18,21 +18,25 @@ class LoginForm(forms.Form):
 
 class FuncionarioSearchForm(forms.Form):
     
+    id_funcionario = forms.CharField(required=False, widget=forms.TextInput(attrs={ }))
+    
     nome = forms.CharField(required=False, label='Nome do Funcionário')
     
     skill = forms.ModelChoiceField(queryset=Skills.objects.all(), required=False, label='Skills')
     
-    cargo = forms.CharField(required=False, label='Cargo')
-    
     setor = forms.CharField(required=False, label='Setor')
+    
+    posicao = forms.CharField(required=False, label='Posição')
+    
+    descricao = forms.CharField(required=False, label='Descrição')
     
 class CursosForm(forms.ModelForm):
     funcionario_id = forms.CharField(
-    widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder' : 'Digite o id do funcionário'})
+    widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'funcionario-id', 'placeholder' : 'Digite o id do funcionário'})
     )
     
     nome_skill = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off', 'placeholder' : 'Digite o nome da skill'})
+        widget=forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off', 'id': 'nome_do_funcionario', 'placeholder' : 'Digite o nome da skill'})
     )
     
     data_inicio = forms.DateField(
