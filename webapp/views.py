@@ -156,26 +156,6 @@ def registrar_curso(request):
     
     return render(request, 'cursos.html', {'form': form})
 
-# API para autocomplete de skills
-def autocomplete_skill(request):
-    if request.is_ajax():
-        query = request.GET.get('term', '')
-        # Supondo que as skills estão armazenadas no campo 'skills' em Funcionario
-        skills = Funcionario.objects.values_list('skills', flat=True)
-        
-        # Agrupar todas as skills e remover duplicatas
-        skills_list = set()
-        for skill_json in skills:
-            try:
-                skill_data = json.loads(skill_json)
-                for skill in skill_data:
-                    if query.lower() in skill['nome_skill'].lower():
-                        skills_list.add(skill['nome_skill'])
-            except json.JSONDecodeError:
-                continue
-        
-        # Retornar as skills que combinam com o termo de pesquisa
-        return JsonResponse(list(skills_list), safe=False)
 
 def buscar_nome_funcionario(request):
     funcionario_id = request.GET.get('id')
@@ -184,6 +164,14 @@ def buscar_nome_funcionario(request):
         return JsonResponse({'nome': funcionario.nome_funcionario})  # Supondo que o campo de nome seja 'nome'
     except Funcionario.DoesNotExist:
         return JsonResponse({'nome': ''})  # Retorna vazio se não encontrar
+
+
+def buscar_skills(request):
+    if request.method == "GET":
+        skills = Skills.objects.values('id', 'nome_skill')
+        skill_list = [skill['nome_skill'] for skill in skills]
+        return JsonResponse(skill_list, safe=False)
+
 
 #@login_required   
 def pagina_inicial(request):
