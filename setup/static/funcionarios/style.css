@@ -305,6 +305,7 @@ main {
 
 
 /* Estilo do Pop-up */
+/* Estilo do Pop-up */
 .popup {
     display: none;
     /* Inicialmente escondido */
@@ -322,16 +323,18 @@ main {
     /* Centraliza verticalmente */
 }
 
-.close {
+.popup-content {
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     width: 40%;
     height: 82%;
     max-width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
+    margin-top: 10px;
 }
+
 
 .close {
     color: red;
