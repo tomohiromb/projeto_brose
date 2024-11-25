@@ -17,13 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.shortcuts import redirect
+from django.contrib import admin
+from django.urls import path, include
+
 
 
 from . import index
-from webapp.views import login_view, registrar_curso, lista_funcionarios, pagina_inicial, detalhes_funcionario, buscar_nome_funcionario, buscar_skills
+from webapp.views import login_view, registrar_curso, lista_funcionarios, pagina_inicial, detalhes_funcionario, buscar_nome_funcionario, buscar_skills, exportar_csv, exportar_pdf
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),exportar_csv
     #path('', index.index),
     path('', lambda request: redirect('login/')),
     path('login/', login_view, name='login'),
@@ -33,4 +36,6 @@ urlpatterns = [
     path('funcionarios/buscar_skills/', buscar_skills, name='buscar_skills'),
     path('pagina_inicial/', pagina_inicial, name='pagina_inicial'),
     path('funcionarios/', lista_funcionarios, name='lista_funcionarios'),
+    path('exportar-csv/', exportar_csv, name='exportar_csv'),
+    path('exportar-pdf/', exportar_pdf, name='exportar_pdf'),
 ]

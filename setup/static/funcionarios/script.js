@@ -146,3 +146,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+// Adiciona evento de clique nos itens do drop-down
+dropdown.addEventListener('click', (event) => {
+    if (event.target.tagName === 'A') {
+        event.preventDefault();
+        searchInput.value = event.target.textContent; // Atualiza o input com o valor clicado
+        dropdown.style.display = 'none'; // Esconde o dropdown após seleção
+    }
+});
+

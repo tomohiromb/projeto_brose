@@ -1,21 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento de Curso - Brose</title>
+    <title>Gerenciamento de Registros</title>
     <link rel="stylesheet" href="{% static 'cursos/style.css' %}">
-    <script src="{% static 'cursos/script.js' %}"></script>
+    <script src="{% static 'cursos/script.js' %}" defer></script>
 </head>
+
 <body>
     <div>
         <div class="top-bar">
             <div class="logo">
                 <img src="{% static 'cursos/assets/brose_icon.png' %}" alt="Logo">
             </div>
-                <div class="user-info">
-                    <span class="user-name">Nome do Usuário</span>
+            <div class="user-info">
+                <span class="user-name">Nome do Usuário</span>
                 <div class="logout">
                     <a href="#">
                         <img src="{% static 'cursos/assets/logout.png' %}" alt="Logout">
@@ -24,56 +26,54 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="left-bar">
-        <aside class="barra-lateral">
-            <ul>
-                <li><a href="/pagina_inicial/"><img src="{% static 'cursos/assets/logo_casa_branca.png' %}",>Página inicial</a></li>
-                <li><a href="/funcionarios/"><img src="{% static 'cursos/assets/icone_silhueta.png' %}">Funcionários</a></li>
-                <li><a href="#"><img src="{% static 'cursos/assets/icone_curso_livro.png' %}">Cursos</a></li>
-            </ul>
-        </aside>
-        
-        <main>
+            <aside class="barra-lateral">
+                <ul>
+                    <li><a href="/pagina_inicial/"><img src="{% static 'cursos/assets/logo_casa_branca.png' %}" ,>Página
+                            inicial</a></li>
+                    <li><a href="/funcionarios/"><img
+                                src="{% static 'cursos/assets/icone_silhueta.png' %}">Funcionários</a></li>
+                    <li><a href="#"><img src="{% static 'cursos/assets/id-card.png' %}">Gerenciamento de Registros</a>
+                    </li>
+
+                </ul>
+            </aside>
         </div>
-    </body>
-        <div class="container">
-            <div class="content">
-                <h2>Agendamento de curso <span class="calendar-icon"></span></h2>
-                
-                <form method="post">
-                    {% csrf_token %}
-                        <div class="form-group">
-                            <label for="employee">Employee</label>
-                            <input type="text" id="funcionario_id" name="funcionario_id" placeholder="Digite o nome do funcionário">
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="nome-funcionario">Nome do funcionário</label>
-                            <input type="text" id="nome-funcionario" name="nome-funcionario" placeholder="Digite o nome do funcionário"readonly>
-                        </div>
-                
-                <div class="form-group">
-                    <label for="skill">Nome da Skill trabalhada</label>
-                    <input type="text" id="skill" name="skill" placeholder="Digite o nome da skill">
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.data_inicio.id_for_label }}">Data de Início</label>
-                    {{ form.data_inicio }}
-                </div>
 
-                <div class="form-group">
-                    <label for="{{ form.data_termino.id_for_label }}">Data de Conclusão</label>
-                    {{ form.data_termino }}
-                </div>
+        <main>
+            <div class="container">
+                <div class="content">
+                    <h2>Gerenciamento de Registros<span class="id-icon"></span></h2>
 
-                <div class="form-group-buttom">
-                    <button id="agendar">Agendar Curso</button>
+                    <div class="form-group-buttom">
+                        <button id="adicionar-funcionario">Adicionar novo funcionário</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="adicionar-skill">Adicionar nova skill</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="inativar-funcionario">Inativar funcionário</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="deletar-skill">Deletar skill</button>
+                    </div>
                 </div>
-                
             </div>
+        </main>
     </div>
-    
+
+    <!-- Pop-up Modal -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <!-- O conteúdo será inserido dinamicamente via JavaScript -->
+        </div>
+    </div>
+
 </body>
+
 </html>
