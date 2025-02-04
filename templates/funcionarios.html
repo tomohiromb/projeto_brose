@@ -20,7 +20,7 @@
                 <img src="{% static 'funcionarios/brose_icon.png' %}" alt="Logo">
             </div>
             <div class="user-info">
-                <span class="user-name">Paulo Moreira</span>
+                <span class="user-name">Nome do Usuário</span>
                 <div class="logout">
                     <img src="{% static 'funcionarios/logout.png' %}" alt="Logout">
                 </div>
@@ -47,62 +47,97 @@
                     <form method="get" action="{% url 'lista_funcionarios' %}">
 
                         <div class="skills">
+                        <div class="skills">
 
+                            <div class="labels">
                             <div class="labels">
 
                                 <label class="skills_lista">Skills</label>
                                 <input type="text" id="myInput" placeholder="Digite uma skill...">
+                                <label class="skills_lista">Skills</label>
+                                <input type="text" id="myInput" placeholder="Digite uma skill...">
 
                             </div>
+                            </div>
 
+                            <div class="labels">
                             <div class="labels">
 
                                 <label>Id_Funcionário</label>
                                 {{ form.id_funcionario }}
+                                <label>Id_Funcionário</label>
+                                {{ form.id_funcionario }}
 
                             </div>
+                            </div>
 
+                            <div class="labels">
                             <div class="labels">
 
                                 <label>Posição</label>
                                 {{ form.posicao }}
+                                <label>Posição</label>
+                                {{ form.posicao }}
 
                             </div>
+                            </div>
 
+                            <div class="labels">
                             <div class="labels">
 
                                 <label>Setor</label>
                                 {{ form.setor }}
+                                <label>Setor</label>
+                                {{ form.setor }}
 
+                            </div>
                             </div>
 
 
                         </div>
+                        </div>
 
+                        <div class="nome">
                         <div class="nome">
 
                             <div class="labels-maiores">
                                 <label>Nome</label>
                                 {{ form.nome }}
                             </div>
+                            <div class="labels-maiores">
+                                <label>Nome</label>
+                                {{ form.nome }}
+                            </div>
 
+                            <div class="labels-maiores">
                             <div class="labels-maiores">
 
                                 <label>Descrição</label>
                                 {{ form.descricao }}
 
                             </div>
+                                <label>Descrição</label>
+                                {{ form.descricao }}
+
+                            </div>
 
                             <div class="labels">
+                            <div class="labels">
 
+                                <label>Data</label>
+                                {{ form.ultima_verificacao }}
                                 <label>Data</label>
                                 {{ form.ultima_verificacao }}
 
                             </div>
 
                         </div>
+                            </div>
+
+                        </div>
 
                 </div>
+
 
                 <div class="botao-pesquisar">
                     <button class="pesquisar">Pesquisar</button>
@@ -119,9 +154,19 @@
                 <form method="get" action="{% url 'exportar_pdf' %}">
                     <button type="submit" class="btn btn-primary">Exportar PDF</button>
                 </form>
+                <form method="get" action="{% url 'exportar_csv' %}">
+                    <button type="submit" class="btn btn-primary">Exportar CSV</button>
+                    <br></br>
+                </form>
+            
+                <form method="get" action="{% url 'exportar_pdf' %}">
+                    <button type="submit" class="btn btn-primary">Exportar PDF</button>
+                </form>
             </div>
 
         </div>
+        </div>
+
 
 
             <table class="tabela">
@@ -138,9 +183,18 @@
                 </thead>
 
         <div class="rolagem">
+
+        <div class="rolagem">
                 <tbody>
                     {% for funcionario in resultados %}
+                    {% for funcionario in resultados %}
                     <tr>
+                        <td>{{ funcionario.cargo.departamento }}</td>
+                        <td>{{ funcionario.id }}</td>
+                        <td>{{ funcionario.nome_funcionario }}</td>
+                        <td>{{ funcionario.cargo.id }}</td>
+                        <td>{{ funcionario.cargo.nome_do_cargo }}</td>
+                        <td>{{ funcionario.ultima_verificacao }}</td>
                         <td>{{ funcionario.cargo.departamento }}</td>
                         <td>{{ funcionario.id }}</td>
                         <td>{{ funcionario.nome_funcionario }}</td>
@@ -162,17 +216,21 @@
                                 <label for="posicao">Posição</label>
                                 <input type="text" id="posicao" readonly>
 
+
                                 <!-- Employee ID -->
                                 <label for="employee">Employee ID</label>
                                 <input type="text" id="employee" readonly>
+
 
                                 <!-- Nome do Funcionário -->
                                 <label for="nome">Nome</label>
                                 <input type="text" id="nome" readonly>
 
+
                                 <!-- Setor -->
                                 <label for="setor">Setor</label>
                                 <input type="text" id="setor" readonly>
+
 
                                 <!-- Descrição -->
                                 <label for="descricao">Descrição</label>
@@ -186,9 +244,12 @@
                                 <label for="skills">Skills</label>
                                 <textarea id="skills" readonly class="skills"></textarea>
 
+                                <textarea id="skills" readonly class="skills"></textarea>
+
                                 <div class="buttons">
                                     <button type="button" class="exportar">Exportar</button>
                                     <button type="button" class="imprimir">Imprimir</button>
+                                    <button type="button" class="salvar">Salvar</button>
                                     <button type="button" class="salvar">Salvar</button>
                                 </div>
                             </form>
@@ -197,11 +258,14 @@
 
                     </main>
 
+                    </main>
+
                 </tbody>
 
             </table>
         </div>
 
+        </main>
         </main>
     </div>
 </body>

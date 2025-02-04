@@ -1,5 +1,6 @@
 import json
 import csv
+import csv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
@@ -14,37 +15,39 @@ from reportlab.lib import colors
 
 def login_view(request):
     if request.method == 'POST':
-        
+
         # Instancia o formulário com os dados enviados pelo usuário (request.POST)
         form = LoginForm(request.POST)
-        
+
         # Verifica se o formulário é válido (se todos os campos foram preenchidos corretamente)
         if form.is_valid():
             login_name = form.cleaned_data.get('login')
             senha = form.cleaned_data.get('senha')
-            
+
             # Tentativa de buscar o usuário pelo login fornecido
             try:
                 user = Login.objects.get(login=login_name)
-                
+
                 # Verifica se a senha inserida é a mesma cadastrada no banco de dados
                 if user.verify_password(senha):
-                    
-                    #login(request, user)  # Garante que o usuário está autenticado
-                    return redirect(request.GET.get('next') or 'pagina_inicial')  # Redireciona para a página inicial
+
+                    # login(request, user)  # Garante que o usuário está autenticado
+                    # Redireciona para a página inicial
+                    return redirect(request.GET.get('next') or 'pagina_inicial')
                 else:
                     messages.error(request, 'Senha incorreta.')
-                    
+
             # Caso o Usuário não exista
             except Login.DoesNotExist:
                 messages.error(request, 'Usuário não encontrado.')
-                
+
     # Se o método da requisição não for POST (por exemplo, GET), uma nova instância do formulário é criada
     else:
         form = LoginForm()
 
     # Renderiza a página de login com o formulário (seja preenchido ou vazio)
     return render(request, 'login.html', {'form': form})
+
 
 def lista_funcionarios(request):
     form = FuncionarioSearchForm(request.GET or None)
@@ -56,22 +59,23 @@ def lista_funcionarios(request):
         id_funcionario = form.cleaned_data.get('id_funcionario')
         if id_funcionario:
             resultados = resultados.filter(id=id_funcionario)
-        
+
         # Filtro por nome
-        nome = form.cleaned_data.get('nome')   
+        nome = form.cleaned_data.get('nome')
         if nome:
             resultados = resultados.filter(nome_funcionario__icontains=nome)
 
         # Filtro por setor
         setor = form.cleaned_data.get('setor')
         if setor:
-            resultados = resultados.filter(cargo__departamento__icontains=setor)
+            resultados = resultados.filter(
+                cargo__departamento__icontains=setor)
 
         # Filtro por skill
         skill = form.cleaned_data.get('skill')
         if skill:
             resultados = resultados.filter(skills__icontains=skill)
-        
+
         # Filtro por posição
         posicao = form.cleaned_data.get('posicao')
         if posicao:
@@ -80,19 +84,21 @@ def lista_funcionarios(request):
         # Filtro por descrição
         descricao = form.cleaned_data.get('descricao')
         if descricao:
-            resultados = resultados.filter(cargo__nome_do_cargo__icontains=descricao)
-            
+            resultados = resultados.filter(
+                cargo__nome_do_cargo__icontains=descricao)
+
         ultima_verificacao = form.cleaned_data.get('ultima_verificacao')
         if ultima_verificacao:
-            resultados = resultados.filter(ultima_verificacao__icontains=ultima_verificacao)
-    
+            resultados = resultados.filter(
+                ultima_verificacao__icontains=ultima_verificacao)
+
     else:
         print(form.errors)
     context = {
         'form': form,
         'resultados': resultados,
     }
-    
+
     return render(request, 'funcionarios.html', context)
 
 def detalhes_funcionario(request, funcionario_id,cargo_id):
@@ -103,6 +109,8 @@ def detalhes_funcionario(request, funcionario_id,cargo_id):
     if isinstance(funcionario.skills, str):
         # Converter a string de skills de JSON para lista de dicionários
         try:
+            skills_list = json.loads(
+                funcionario.skills) if funcionario.skills else []
             skills_list = json.loads(
                 funcionario.skills) if funcionario.skills else []
         except json.JSONDecodeError:
@@ -171,15 +179,16 @@ def detalhes_funcionario(request, funcionario_id,cargo_id):
 def listar_cargos(request):
     # Buscar todos os cargos
     cargos = Cargo.objects.all()
-    
+
     cargos_list = []
     for cargo in cargos:
         # Parsear as skills necessárias do JSON
         try:
-            skills_list = json.loads(cargo.skills)  # Parseando o JSON de skills
+            # Parseando o JSON de skills
+            skills_list = json.loads(cargo.skills)
         except json.JSONDecodeError:
             skills_list = []  # Caso o JSON esteja inválido ou vazio
-        
+
         cargos_list.append({
             'cargo': cargo,
             'skills': skills_list
@@ -191,6 +200,7 @@ def listar_cargos(request):
 
     return render(request, 'listar_cargos.html', context)
 
+
 def registrar_curso(request):
     if request.method == 'POST':
         form = CursosForm(request.POST)
@@ -199,7 +209,7 @@ def registrar_curso(request):
             messages.success(request, 'Curso registrado com sucesso!')
     else:
         form = CursosForm()
-    
+
     return render(request, 'cursos.html', {'form': form})
 
 
@@ -207,7 +217,8 @@ def buscar_nome_funcionario(request):
     funcionario_id = request.GET.get('id')
     try:
         funcionario = Funcionario.objects.get(id=funcionario_id)
-        return JsonResponse({'nome': funcionario.nome_funcionario})  # Supondo que o campo de nome seja 'nome'
+        # Supondo que o campo de nome seja 'nome'
+        return JsonResponse({'nome': funcionario.nome_funcionario})
     except Funcionario.DoesNotExist:
         return JsonResponse({'nome': ''})  # Retorna vazio se não encontrar
 
