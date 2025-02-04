@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Registros</title>
+    <link rel="stylesheet" href="{% static 'cursos/style.css' %}">
+    <script src="{% static 'cursos/script.js' %}" defer></script>
+</head>
+
+<body>
+    <div>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="{% static 'cursos/assets/brose_icon.png' %}" alt="Logo">
+            </div>
+            <div class="user-info">
+                <span class="user-name">Nome do Usuário</span>
+                <div class="logout">
+                    <a href="#">
+                        <img src="{% static 'cursos/assets/logout.png' %}" alt="Logout">
+                        <span class="tooltip">Sair</span> <!-- Tooltip personalizada -->
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="left-bar">
+            <aside class="barra-lateral">
+                <ul>
+                    <li><a href="/pagina_inicial/"><img src="{% static 'cursos/assets/logo_casa_branca.png' %}" ,>Página
+                            inicial</a></li>
+                    <li><a href="/funcionarios/"><img
+                                src="{% static 'cursos/assets/icone_silhueta.png' %}">Funcionários</a></li>
+                    <li><a href="#"><img src="{% static 'cursos/assets/id-card.png' %}">Gerenciamento de Registros</a>
+                    </li>
+
+                </ul>
+            </aside>
+        </div>
+
+        <main>
+            <div class="container">
+                <div class="content">
+                    <h2>Gerenciamento de Registros<span class="id-icon"></span></h2>
+
+                    <div class="form-group-buttom">
+                        <button id="adicionar-funcionario">Adicionar novo funcionário</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="adicionar-skill">Adicionar nova skill</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="inativar-funcionario">Inativar funcionário</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="deletar-skill">Deletar skill</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Pop-up Modal -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <!-- Conteúdo dinâmico será inserido aqui -->
+            {% comment %} Placeholder para formulários {% endcomment %}
+            <form id="form-skill" method="POST" style="display:none;">
+                {% csrf_token %}
+                {{ skill_form.as_p }}
+                <button type="submit" name="submit_skill">Salvar Skill</button>
+            </form>
+            <form id="form-funcionario" method="POST" style="display:none;">
+                {% csrf_token %}
+                {{ funcionario_form.as_p }}
+                <button type="submit" name="submit_funcionario">Salvar Funcionário</button>
+            </form>
+            <form id="form-cargo" method="POST" style="display:none;">
+                {% csrf_token %}
+                {{ cargo_form.as_p }}
+                <button type="submit">Salvar Cargo</button>
+            </form>
+            <form id="form-login" method="POST" style="display:none;">
+                {% csrf_token %}
+                {{ login_form.as_p }}
+                <button type="submit">Salvar Login</button>
+            </form>
+        </div>
+    </div>
+    
+</body>
+
+</html>{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Registros</title>
+    <link rel="stylesheet" href="{% static 'cursos/style.css' %}">
+    <script src="{% static 'cursos/script.js' %}" defer></script>
+</head>
+
+<body>
+    <div>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="{% static 'cursos/assets/brose_icon.png' %}" alt="Logo">
+            </div>
+            <div class="user-info">
+                <span class="user-name">Paulo Moreira</span>
+                <div class="logout">
+                    <a href="#">
+                        <img src="{% static 'cursos/assets/logout.png' %}" alt="Logout">
+                        <span class="tooltip">Sair</span> <!-- Tooltip personalizada -->
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="left-bar">
+            <aside class="barra-lateral">
+                <ul>
+                    <li><a href="/pagina_inicial/"><img src="{% static 'cursos/assets/logo_casa_branca.png' %}" ,>Página
+                            inicial</a></li>
+                    <li><a href="/funcionarios/"><img
+                                src="{% static 'cursos/assets/icone_silhueta.png' %}">Funcionários</a></li>
+                    <li><a href="#"><img src="{% static 'cursos/assets/id-card.png' %}">Gerenciamento de Registros</a>
+                    </li>
+
+                </ul>
+            </aside>
+        </div>
+
+        <main>
+            <div class="container">
+                <div class="content">
+                    <h2>Gerenciamento de Registros<span class="id-icon"></span></h2>
+
+                    <div class="form-group-buttom">
+                        <button id="adicionar-funcionario">Adicionar novo funcionário</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="adicionar-skill">Adicionar nova skill</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="inativar-funcionario">Inativar funcionário</button>
+                    </div>
+
+                    <div class="form-group-buttom">
+                        <button id="deletar-skill">Deletar skill</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Pop-up Modal -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <!-- O conteúdo será inserido dinamicamente via JavaScript -->
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,17 +1,36 @@
-document.getElementById('funcionario_id').addEventListener('blur', function() {
-    const id = this.value;
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".form-group-buttom button");
+    const popup = document.querySelector("#popup");
+    const closeBtn = popup.querySelector(".close");
+    const forms = {
+        "adicionar-skill": "form-skill",
+        "adicionar-funcionario": "form-funcionario",
+        "adicionar-cargo": "form-cargo",
+        "adicionar-login": "form-login",
+    };
 
-    // Faz a requisição para a view de autocompletar
-    fetch(`buscar_nome_funcionario/?id=${id}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                document.getElementById('nome_funcionario').value = '';  // Limpa o campo se houver erro
-            } else {
-                // Preenche o campo de nome_funcionario com o valor retornado
-                document.getElementById('nome_funcionario').value = data.nome;
+    // Mostrar o formulário correto no pop-up
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+            const formId = forms[button.id];
+            if (formId) {
+                document.querySelectorAll("#popup form").forEach(form => form.style.display = "none");
+                const selectedForm = document.querySelector(`#${formId}`);
+                selectedForm.style.display = "block";
+                popup.style.display = "flex";
             }
-        })
-        .catch(error => console.error('Erro na requisição:', error));
+        });
+    });
+
+    // Fechar o pop-up
+    closeBtn.addEventListener("click", function () {
+        popup.style.display = "none";
+    });
+
+    // Fechar o pop-up clicando fora
+    window.addEventListener("click", function (event) {
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    });
 });

@@ -1,12 +1,16 @@
 import json
+import csv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from .models import Funcionario, Login, Skills
-from .forms import LoginForm, FuncionarioSearchForm, CursosForm
-from .models import Cargo
+from django.http import JsonResponse, HttpResponse
+from .models import Funcionario, Login, Skills, Cargo
+from .forms import LoginForm, FuncionarioSearchForm, CursosForm, LoginFormCreate, SkillFormCreate, FuncionarioFormCreate, CargoFormCreate
+from django.template.loader import render_to_string
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
 
 def login_view(request):
     if request.method == 'POST':
@@ -91,15 +95,16 @@ def lista_funcionarios(request):
     
     return render(request, 'funcionarios.html', context)
 
-def detalhes_funcionario(request, funcionario_id):
+def detalhes_funcionario(request, funcionario_id,cargo_id):
     # Busca o funcionário pelo ID, ou retorna 404 se não encontrado
     funcionario = get_object_or_404(Funcionario, id=funcionario_id)
-
+    cargo = get_object_or_404(Cargo, id=cargo_id)
     # Verifique se funcionario.skills é uma string ou uma lista
     if isinstance(funcionario.skills, str):
         # Converter a string de skills de JSON para lista de dicionários
         try:
-            skills_list = json.loads(funcionario.skills) if funcionario.skills else []
+            skills_list = json.loads(
+                funcionario.skills) if funcionario.skills else []
         except json.JSONDecodeError:
             skills_list = []
     elif isinstance(funcionario.skills, list):
@@ -108,7 +113,48 @@ def detalhes_funcionario(request, funcionario_id):
     else:
         # Caso contrário, atribua uma lista vazia
         skills_list = []
-
+    skills_list_dict = {
+            skill['nome_skill']: skill['nivel'] for skill in skills_list
+        }
+    
+    if isinstance(cargo.skills, str):
+        # Converter a string de skills de JSON para lista de dicionários
+        try:
+            skills_cargo = json.loads(
+                cargo.skills) if cargo.skills else []
+        except json.JSONDecodeError:
+            skills_cargo = []
+    elif isinstance(cargo.skills, list):
+        # Se já for uma lista, atribua diretamente
+        skills_cargo = cargo.skills
+    else:
+        # Caso contrário, atribua uma lista vazia
+        skills_cargo = []
+    skills_cargo_dict = {
+            skill['nome_skill']: skill['nivel'] for skill in skills_cargo
+        }
+    
+    # Comparar as skills
+    comparacoes = []
+    for nome_skill, nivel_cargo in skills_cargo_dict.items():
+        nivel_funcionario = skills_list_dict.get(nome_skill)
+        if nivel_funcionario is not None:
+            if nivel_funcionario > nivel_cargo:
+                status = "up"  # Representa seta para cima
+            elif nivel_funcionario == nivel_cargo:
+                status = "equal"  # Representa igualdade
+            else:
+                status = "down"  # Representa seta para baixo
+        else:
+            nivel_funcionario = "N/A" 
+            status = None  # Skill ausente no funcionário
+            
+        comparacoes.append({
+            "nome_skill": nome_skill,
+            "nivel_funcionario": nivel_funcionario,
+            "nivel_cargo": nivel_cargo,
+            "status": status
+        })
     # Monta os dados para o JSON de resposta
     dados_funcionario = {
         'id': funcionario.id,
@@ -117,10 +163,10 @@ def detalhes_funcionario(request, funcionario_id):
         'departamento': funcionario.cargo.departamento if funcionario.cargo else '',
         'descricao': funcionario.cargo.nome_do_cargo if funcionario.cargo else '',
         'skills': skills_list,
+        'comparacoes': comparacoes 
     }
 
     return JsonResponse(dados_funcionario)  # Retorna os dados em JSON
-
 
 def listar_cargos(request):
     # Buscar todos os cargos
@@ -173,9 +219,153 @@ def buscar_skills(request):
         return JsonResponse(skill_list, safe=False)
 
 
+def gerenciar_registros(request):
+    # Inicializar formulários
+    skill_form = SkillFormCreate(prefix='skill')
+    funcionario_form = FuncionarioFormCreate(prefix='funcionario')
+    cargo_form = CargoFormCreate(prefix='cargo')
+    login_form = LoginFormCreate(prefix='login')
+
+    if request.method == 'POST':
+        # Verificar qual formulário de criação foi enviado
+        if 'submit_skill' in request.POST:
+            skill_form = SkillFormCreate(request.POST, prefix='skill')
+            if skill_form.is_valid():
+                skill_form.save()
+                return redirect('gerenciar_registros')
+
+        elif 'submit_funcionario' in request.POST:
+            funcionario_form = FuncionarioFormCreate(request.POST, prefix='funcionario')
+            if funcionario_form.is_valid():
+                funcionario = funcionario_form.save(commit=False)
+                funcionario.save()
+                return redirect('gerenciar_registros')
+
+        elif 'submit_cargo' in request.POST:
+            cargo_form = CargoFormCreate(request.POST, prefix='cargo')
+            if cargo_form.is_valid():
+                cargo = cargo_form.save(commit=False)
+                cargo.skills = cargo_form.cleaned_data.get('skills') or '[]'
+                cargo.save()
+                return redirect('gerenciar_registros')
+
+        elif 'submit_login' in request.POST:
+            login_form = LoginFormCreate(request.POST, prefix='login')
+            if login_form.is_valid():
+                login_form.save()
+                return redirect('gerenciar_registros')
+
+        # Verificar qual exclusão foi solicitada
+        elif 'delete_skill' in request.POST:
+            skill_id = request.POST.get('skill')
+            skill = get_object_or_404(Skills, id=skill_id)
+            skill.delete()
+            return redirect('gerenciar_registros')
+
+        elif 'delete_funcionario' in request.POST:
+            funcionario_id = request.POST.get('funcionario')
+            funcionario = get_object_or_404(Funcionario, id=funcionario_id)
+            funcionario.delete()
+            return redirect('gerenciar_registros')
+
+        elif 'delete_cargo' in request.POST:
+            cargo_id = request.POST.get('cargo')
+            cargo = get_object_or_404(Cargo, id=cargo_id)
+            cargo.delete()
+            return redirect('gerenciar_registros')
+
+        elif 'delete_login' in request.POST:
+            login_id = request.POST.get('login')
+            login = get_object_or_404(Login, id=login_id)
+            login.delete()
+            return redirect('gerenciar_registros')
+
+    # Obter os registros existentes
+    # skills = Skills.objects.all()
+    # funcionarios = Funcionario.objects.all()
+    # cargos = Cargo.objects.all()
+    # logins = Login.objects.all()
+
+    return render(request, 'gerenciar_registros.html', {
+        'skill_form': skill_form,
+        'funcionario_form': funcionario_form,
+        'cargo_form': cargo_form,
+        'login_form': login_form,
+    #    'skills': skills,
+    #    'funcionarios': funcionarios,
+    #    'cargos': cargos,
+    #    'logins': logins,
+    })
+
+def exportar_csv(request):
+    # Configurar a resposta como CSV
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="funcionarios.csv"'
+
+    # Criar o writer com delimitador personalizado
+    # Alterado para ponto-e-vírgula
+    writer = csv.writer(response, delimiter=';')
+
+    # Escrever o cabeçalho do CSV
+    writer.writerow(['ID', 'Nome', 'Cargo', 'Skills',
+                    'Certificados', 'Última Verificação'])
+
+    # Escrever os dados dos funcionários
+    funcionarios = Funcionario.objects.all()
+    for funcionario in funcionarios:
+        writer.writerow([
+            funcionario.id,
+            funcionario.nome_funcionario,
+            funcionario.cargo.nome_do_cargo,  # Acessando o nome do cargo relacionado
+            funcionario.skills,
+            funcionario.certificados,
+            funcionario.ultima_verificacao,
+        ])
+
+    return response
+
+def exportar_pdf(request):
+    # Cria um response HTTP com o tipo de conteúdo PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="relatorio.pdf"'
+
+    # Configura o tamanho da página e cria o canvas
+    p = canvas.Canvas(response, pagesize=letter)
+    width, height = letter
+
+    # Adiciona título ao PDF
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(100, height - 50, "Relatório de Dados")
+    p.setFont("Helvetica", 12)
+    p.drawString(100, height - 70, "Dados extraídos do banco de dados")
+
+    # Configura o espaço inicial para os dados
+    y = height - 100
+
+    # Busca os dados no banco de dados
+    registros = Funcionario.objects.all()  # Ajuste de acordo com o seu modelo
+
+    # Cria uma tabela básica com os dados
+    for registro in registros:
+        if y < 50:  # Se a página estiver cheia, cria uma nova página
+            p.showPage()
+            y = height - 50
+            p.setFont("Helvetica", 12)
+
+        # Escreve as informações no PDF
+        p.drawString(100, y, f"ID: {registro.id} | Nome: {registro.nome_funcionario} | Cargo: {registro.cargo.nome_do_cargo} | Skills: {registro.skills} | Certificados: {registro.certificados} | Última Verificação: {registro.ultima_verificacao}")
+
+        y -= 20
+
+    # Finaliza o PDF
+    p.showPage()
+    p.save()
+
+    return response
+
 #@login_required   
 def pagina_inicial(request):
     return render(request, 'inicio.html')
 
-def funcionarios(request):
-    return render(request, 'funcionarios.html')
+#def funcionarios(request):
+ #   return render(request, 'funcionarios.html')

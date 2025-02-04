@@ -35,6 +35,9 @@ class Cargo(models.Model):
     departamento = models.CharField(max_length=100)
     
     skills = models.TextField(max_length=500)  # This field type is a guess.
+    
+    def __str__(self):
+        return self.nome_do_cargo
 
     class Meta:
         managed = False
@@ -49,11 +52,11 @@ class Funcionario(models.Model):
 	
     cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
     
-    skills = models.CharField(max_length=2000)
+    skills = models.CharField(null=True, max_length=2000)
     
-    certificados = models.TextField(max_length=2000)
+    certificados = models.TextField(null=True, max_length=2000)
     
-    ultima_verificacao = models.DateField()
+    ultima_verificacao = models.DateField(null=True)
 
     class Meta:
         managed = False
@@ -87,3 +90,4 @@ class Cursos(models.Model):
     class Meta:
         managed = False
         db_table = 'webapp_cursos'
+        

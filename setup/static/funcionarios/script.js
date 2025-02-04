@@ -7,9 +7,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // Função para buscar dados do funcionário pelo ID e preencher o popup
 
     
-    function carregarDetalhesFuncionario(funcionarioId) {
+    function CarregarDetalhesFuncionario(funcionarioId, cargoId) {
         
-        fetch(`detalhes_funcionario/${funcionarioId}/`)  // Ajuste essa URL para corresponder à sua URL de detalhes
+        const url = `/funcionarios/detalhes_funcionario/${funcionarioId}/${cargoId}/`;
+        console.log("URL:", url);
+        console.log('funcionarioId:', funcionarioId);
+        console.log('Cargo ID:', cargoId)
+        document.getElementById("popup").style.display = "block";
+        fetch(url)  // Ajuste essa URL para corresponder à sua URL de detalhes
             .then(response => response.json())
             .then(data => {
                 console.log("Dados recebidos:", data);
@@ -27,6 +32,26 @@ document.addEventListener("DOMContentLoaded", function() {
                         .join('\n');
                 } else {
                     skillsTextarea.value = "Nenhuma skill registrada";
+                }
+                
+                // Preencher as comparações com setas ao lado de cada skill
+                const comparacoesDiv = document.getElementById('comparacoes');
+                if (data.comparacoes.length > 0) {
+                    comparacoesDiv.innerHTML = data.comparacoes
+                        .map(comparacao => {
+                            let seta = '';
+                            if (comparacao.status === "up") {
+                                seta = `<span style="color: green;">&#9650;</span>`; // Seta para cima
+                            } else if (comparacao.status === "down") {
+                                seta = `<span style="color: red;">&#9660;</span>`; // Seta para baixo
+                            } else {
+                                seta = ''; // Caso não haja status
+                            }
+                            return `${comparacao.nome_skill}: ${comparacao.nivel_funcionario} vs ${comparacao.nivel_cargo} ${seta}`;
+                        })
+                        .join('<br>');  // Para separar as comparações por linha
+                } else {
+                    comparacoesDiv.innerHTML = "Sem comparações disponíveis";
                 }
                 
                 // Exibir o popup
@@ -129,8 +154,10 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener("click", function() {
 
             const funcionarioId = this.dataset.funcionarioId; // Supondo que você armazene o ID no botão
+            const cargoId = this.dataset.cargoId; // ID do cargo
             console.log("Funcionário ID:", funcionarioId); 
-            carregarDetalhesFuncionario(funcionarioId); // Chama a função para carregar os dados do funcionário
+            console.log("Cargo ID:", cargoId);
+            CarregarDetalhesFuncionario(funcionarioId,cargoId); // Chama a função para carregar os dados do funcionário
         });
     });
 
@@ -146,3 +173,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+// Adiciona evento de clique nos itens do drop-down
+dropdown.addEventListener('click', (event) => {
+    if (event.target.tagName === 'A') {
+        event.preventDefault();
+        searchInput.value = event.target.textContent; // Atualiza o input com o valor clicado
+        dropdown.style.display = 'none'; // Esconde o dropdown após seleção
+    }
+});
+

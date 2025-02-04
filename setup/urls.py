@@ -20,7 +20,18 @@ from django.shortcuts import redirect
 
 
 from . import index
-from webapp.views import login_view, registrar_curso, lista_funcionarios, pagina_inicial, detalhes_funcionario, buscar_nome_funcionario, buscar_skills
+from webapp.views import (
+    login_view,
+    registrar_curso,
+    lista_funcionarios,
+    pagina_inicial,
+    detalhes_funcionario,
+    buscar_nome_funcionario,
+    buscar_skills,
+    gerenciar_registros,
+    exportar_csv,
+    exportar_pdf
+)
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -29,8 +40,11 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('cursos/', registrar_curso, name='cursos'),
     path('buscar_nome_funcionario/', buscar_nome_funcionario, name='buscar_nome_funcionario'),
-    path('funcionarios/detalhes_funcionario/<str:funcionario_id>/', detalhes_funcionario, name='detalhes_funcionario'),
+    path('funcionarios/detalhes_funcionario/<str:funcionario_id>/<str:cargo_id>/', detalhes_funcionario, name='detalhes_funcionario'),
     path('funcionarios/buscar_skills/', buscar_skills, name='buscar_skills'),
     path('pagina_inicial/', pagina_inicial, name='pagina_inicial'),
     path('funcionarios/', lista_funcionarios, name='lista_funcionarios'),
+    path('gerenciar_registros/', gerenciar_registros, name='gerenciar_registros'),
+    path('exportar-csv/', exportar_csv, name='exportar_csv'),
+    path('exportar-pdf/', exportar_pdf, name='exportar_pdf')
 ]

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0ogbmseoat+_k^3m)btk7-@hz(&5v^h(^&a3s-32ydx^wecufh'
+# Use a sua própria chave secreta, de preferencia localizada no arquivo .env
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,9 +87,9 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  # O nome do banco de dados que você criou
-        'USER': 'postgres',  # O nome do usuário que você criou
-        'PASSWORD': 'osaka',  # A senha do usuário
+        'NAME': '#',  # O nome do banco de dados que você criou
+        'USER': '#',  # O nome do usuário que você criou
+        'PASSWORD': '#',  # A senha do usuário
         'HOST': 'localhost',  # Ou o endereço IP do servidor de banco de dados
         'PORT': '5432',  # A porta do PostgreSQL (5432 é a padrão)
     }

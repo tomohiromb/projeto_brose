@@ -1,5 +1,5 @@
 from django import forms
-from .models import Funcionario, Skills, Cursos
+from .models import Funcionario, Skills, Cursos, Cargo, Login
 
 class LoginForm(forms.Form):
     # Campo de texto para o login, com um comprimento máximo de 150 caracteres
@@ -53,3 +53,51 @@ class CursosForm(forms.ModelForm):
     class Meta:
         model = Cursos
         fields = ['funcionario_id', 'nome_skill', 'data_inicio', 'data_termino']
+        
+class SkillFormCreate(forms.ModelForm):
+    class Meta:
+        model = Skills
+        fields = ['id', 'nome_skill']
+        labels = {
+            'id': 'ID da Skill',
+            'nome_skill': 'Nome da Skill',
+        }
+        
+class FuncionarioFormCreate(forms.ModelForm):
+    
+    cargo = forms.ModelChoiceField(
+        queryset=Cargo.objects.all(),  # Lista todos os cargos disponíveis
+        label="Cargo",  # Nome do campo no HTML
+        empty_label="Selecione um Cargo",  # Texto padrão para o menu suspenso
+    )
+
+    class Meta:
+        model = Funcionario
+        fields = ['id', 'nome_funcionario', 'cargo']
+        labels = {
+            'id': 'ID do Funcionário',
+            'nome_funcionario': 'Nome do Funcionário',
+        }
+
+class CargoFormCreate(forms.ModelForm):
+
+    class Meta:
+        model = Cargo
+        fields = ['id', 'nome_do_cargo', 'departamento']
+        labels = {
+            'id': 'ID do Cargo',
+            'nome_do_cargo': 'Nome do Cargo',
+            'departamento': 'Departamento',
+        }
+
+class LoginFormCreate(forms.ModelForm):
+    class Meta:
+        model = Login
+        fields = ['login', 'senha']
+        labels = {
+            'login': 'Login',
+            'senha': 'Senha',
+        }
+        widgets = {
+            'senha': forms.PasswordInput(render_value=True),
+        }

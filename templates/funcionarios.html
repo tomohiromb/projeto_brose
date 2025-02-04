@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,93 +15,95 @@
     <button id="popup">pesquisar</button>
 
     <div>
-    <div class="top-bar">
-        <div class="logo">
-            <img src="{% static 'funcionarios/brose_icon.png' %}" alt="Logo">
-        </div>
-        <div class="user-info">
-            <span class="user-name">Nome do Usuário</span>
-            <div class="logout">
-                <img src="{% static 'funcionarios/logout.png' %}" alt="Logout"> 
+        <div class="top-bar">
+            <div class="logo">
+                <img src="{% static 'funcionarios/brose_icon.png' %}" alt="Logo">
+            </div>
+            <div class="user-info">
+                <span class="user-name">Paulo Moreira</span>
+                <div class="logout">
+                    <img src="{% static 'funcionarios/logout.png' %}" alt="Logout">
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="left-bar">
-    <aside class="barra-lateral">
-        <ul>
-            <li><a href="/pagina_inicial/"><img src="{% static 'funcionarios/assets/logo_casa_branca.png' %}",></a></li>
-            <li><a href="#"><img src="{% static 'funcionarios/assets/icone_silhueta.png' %}"></a></li>
-            <li><a href="/cursos/"><img src="{% static 'funcionarios/assets/icone_curso_livro.png' %}"></a></li>
-        </ul>
-    </aside>
-    <main>
-    </div>
-        
-    </main>
+        <div class="left-bar">
+            <aside class="barra-lateral">
+                <ul>
+                    <li><a href="/pagina_inicial/"><img src="{% static 'funcionarios/assets/logo_casa_branca.png' %}"
+                                ,></a></li>
+                    <li><a href="#"><img src="{% static 'funcionarios/assets/icone_silhueta.png' %}"></a></li>
+                    <li><a href="/gerenciar_registros/"><img src="{% static 'funcionarios/assets/id-card.png' %}"></a></li>
+
+                </ul>
+            </aside>
+            <main>
+        </div>
+
+        </main>
         <div class="filtros-map">
             <div class="filtros-pesquisar">
                 <div class="filtros">
                     <form method="get" action="{% url 'lista_funcionarios' %}">
 
-                    <div class="skills">
+                        <div class="skills">
 
-                        <div class="labels">
+                            <div class="labels">
 
-                            <label class = "skills_lista">Skills</label>
-                            <input type="text" id="myInput" placeholder="Digite uma skill...">
+                                <label class="skills_lista">Skills</label>
+                                <input type="text" id="myInput" placeholder="Digite uma skill...">
 
-                        </div>
+                            </div>
 
-                        <div class="labels">
+                            <div class="labels">
 
-                            <label>Id_Funcionário</label>
-                            {{ form.id_funcionario }}
+                                <label>Id_Funcionário</label>
+                                {{ form.id_funcionario }}
 
-                        </div>
+                            </div>
 
-                        <div class="labels">
+                            <div class="labels">
 
-                            <label>Posição</label>
-                            {{ form.posicao }}
+                                <label>Posição</label>
+                                {{ form.posicao }}
 
-                        </div>
+                            </div>
 
-                        <div class="labels">
+                            <div class="labels">
 
-                            <label>Setor</label>
-                            {{ form.setor }}
+                                <label>Setor</label>
+                                {{ form.setor }}
 
-                        </div>
+                            </div>
 
-
-                    </div>
-
-                    <div class="nome">
-
-                        <div class="labels-maiores">
-                            <label>Nome</label>
-                            {{ form.nome }}
-                        </div>
-
-                        <div class="labels-maiores">
-
-                            <label>Descrição</label>
-                            {{ form.descricao }}
-                        
-                        </div>
-
-                        <div class="labels">
-
-                            <label>Data</label>
-                            {{ form.ultima_verificacao }}
 
                         </div>
-                        
-                    </div>
+
+                        <div class="nome">
+
+                            <div class="labels-maiores">
+                                <label>Nome</label>
+                                {{ form.nome }}
+                            </div>
+
+                            <div class="labels-maiores">
+
+                                <label>Descrição</label>
+                                {{ form.descricao }}
+
+                            </div>
+
+                            <div class="labels">
+
+                                <label>Data</label>
+                                {{ form.ultima_verificacao }}
+
+                            </div>
+
+                        </div>
 
                 </div>
-                
+
                 <div class="botao-pesquisar">
                     <button class="pesquisar">Pesquisar</button>
                 </div>
@@ -108,15 +111,19 @@
             </div>
 
             <div class="botoes-exportar">
-
-                <button class="pesquisar">Exportar</button>
-                <button class="pesquisar">Imprimir</button>
-
+                <form method="get" action="{% url 'exportar_csv' %}">
+                    <button type="submit" class="btn btn-primary">Exportar CSV</button>
+                    <br></br>
+                </form>
+            
+                <form method="get" action="{% url 'exportar_pdf' %}">
+                    <button type="submit" class="btn btn-primary">Exportar PDF</button>
+                </form>
             </div>
 
-        </div> 
+        </div>
 
-        <div class="rolagem">
+
             <table class="tabela">
                 <thead class="decricao_tabela">
                     <tr>
@@ -127,22 +134,24 @@
                         <th>Descriçao</th>
                         <th>Ultima Atualização</th>
                         <th>Editar</th>
-                        <th>Deletar</th>
                     </tr>
                 </thead>
-                <tbody>
-                {% for funcionario in resultados %}
-                    <tr>
-                    <td>{{ funcionario.cargo.departamento }}</td>
-                    <td>{{ funcionario.id }}</td>  
-                    <td>{{ funcionario.nome_funcionario }}</td>
-                    <td>{{ funcionario.cargo.id }}</td>
-                    <td>{{ funcionario.cargo.nome_do_cargo }}</td>
-                    <td>{{ funcionario.ultima_verificacao }}</td>
 
-                    <td><button class="editar-botao pesquisar" data-funcionario-id="{{ funcionario.id }}">Editar</button></td>
-                    <td><button class="pesquisar">Deletar</button></td>  
-                    </tr>
+        <div class="rolagem">
+                <tbody>
+                    {% for funcionario in resultados %}
+                    <tr>
+                        <td>{{ funcionario.cargo.departamento }}</td>
+                        <td>{{ funcionario.id }}</td>
+                        <td>{{ funcionario.nome_funcionario }}</td>
+                        <td>{{ funcionario.cargo.id }}</td>
+                        <td>{{ funcionario.cargo.nome_do_cargo }}</td>
+                        <td>{{ funcionario.ultima_verificacao }}</td>
+
+                        <td><button class="editar-botao pesquisar"
+                                data-funcionario-id="{{ funcionario.id }}"
+                                data-cargo-id="{{ funcionario.cargo.id }}" >Editar</button></td>
+                        </tr>
                     {% endfor %}
                     <!-- Pop-up Modal (adicione isto) -->
                     <div id="popup" class="popup">
@@ -152,42 +161,47 @@
                                 <!-- Posição -->
                                 <label for="posicao">Posição</label>
                                 <input type="text" id="posicao" readonly>
-                                
+
                                 <!-- Employee ID -->
                                 <label for="employee">Employee ID</label>
                                 <input type="text" id="employee" readonly>
-                                
+
                                 <!-- Nome do Funcionário -->
                                 <label for="nome">Nome</label>
                                 <input type="text" id="nome" readonly>
-                                
+
                                 <!-- Setor -->
                                 <label for="setor">Setor</label>
                                 <input type="text" id="setor" readonly>
-                                
+
                                 <!-- Descrição -->
                                 <label for="descricao">Descrição</label>
-                                <input type="text" id="descricao" readonly>
+                                <input type="text" id="descricao" readonly class="descricao">
+                                
+                                <!-- Comparações de Skills (modificado para usar div) -->
+                                <label for="comparacoes">Comparações de Skills</label>
+                                <div id="comparacoes" class="comparacoes"></div>
                                 
                                 <!-- Skills -->
                                 <label for="skills">Skills</label>
-                                <textarea id="skills" readonly>Nenhuma skill registrada</textarea>
-                                
+                                <textarea id="skills" readonly class="skills"></textarea>
+
                                 <div class="buttons">
                                     <button type="button" class="exportar">Exportar</button>
                                     <button type="button" class="imprimir">Imprimir</button>
+                                    <button type="button" class="salvar">Salvar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
 
-                </main>
-                
+                    </main>
+
                 </tbody>
 
             </table>
         </div>
 
-    </main>
+        </main>
     </div>
 </body>
