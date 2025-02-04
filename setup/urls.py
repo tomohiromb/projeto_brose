@@ -23,7 +23,6 @@ from django.urls import path, include
 
 
 from . import index
-<<<<<<< HEAD
 from webapp.views import (
     login_view,
     registrar_curso,
@@ -36,9 +35,6 @@ from webapp.views import (
     exportar_csv,
     exportar_pdf
 )
-=======
-from webapp.views import login_view, registrar_curso, lista_funcionarios, pagina_inicial, detalhes_funcionario, buscar_nome_funcionario, buscar_skills, exportar_csv, exportar_pdf
->>>>>>> fce2f155df6843ff0817147704c6508b192b97e5
 
 urlpatterns = [
     #path('admin/', admin.site.urls),exportar_csv
@@ -51,12 +47,7 @@ urlpatterns = [
     path('funcionarios/buscar_skills/', buscar_skills, name='buscar_skills'),
     path('pagina_inicial/', pagina_inicial, name='pagina_inicial'),
     path('funcionarios/', lista_funcionarios, name='lista_funcionarios'),
-<<<<<<< HEAD
     path('gerenciar_registros/', gerenciar_registros, name='gerenciar_registros'),
     path('exportar-csv/', exportar_csv, name='exportar_csv'),
     path('exportar-pdf/', exportar_pdf, name='exportar_pdf')
-=======
-    path('exportar-csv/', exportar_csv, name='exportar_csv'),
-    path('exportar-pdf/', exportar_pdf, name='exportar_pdf'),
->>>>>>> fce2f155df6843ff0817147704c6508b192b97e5
 ]

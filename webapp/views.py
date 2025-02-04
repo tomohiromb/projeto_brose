@@ -30,8 +30,10 @@ def login_view(request):
 
                 # Verifica se a senha inserida é a mesma cadastrada no banco de dados
                 if user.verify_password(senha):
+                    
+                    request.session["usuario_id"] = user.id
+                    request.session["usuario_nome"] = user.login  # Salvando o nome do usuário
 
-                    # login(request, user)  # Garante que o usuário está autenticado
                     # Redireciona para a página inicial
                     return redirect(request.GET.get('next') or 'pagina_inicial')
                 else:

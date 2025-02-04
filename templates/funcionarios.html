@@ -20,7 +20,7 @@
                 <img src="{% static 'funcionarios/brose_icon.png' %}" alt="Logo">
             </div>
             <div class="user-info">
-                <span class="user-name">Nome do Usuário</span>
+                <span class="user-name">{{ request.session.usuario_nome }}</span>
                 <div class="logout">
                     <img src="{% static 'funcionarios/logout.png' %}" alt="Logout">
                 </div>
